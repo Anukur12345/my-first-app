@@ -1,0 +1,61 @@
+<h2>Add a blog:</h2>
+<%# debugger %>
+
+<%= form_with scope: :blog, url:user_blogs_path(current_user), method: :post  do |form| %>
+<p>
+	<%= form.label :name %><br>
+	<%= form.text_field :name %>
+</p>
+<p>
+	<%= form.label :title %><br>
+	<%= form.text_field :title %>
+</p>
+
+<p>
+	<%= form.label :description %><br>
+	<%= form.text_field :description%>
+</p>
+
+<p>
+	<%= form.submit %>
+</p>
+<% end %>
+
+
+<h2>Blogs</h2>
+<%# debugger %>
+<% @user.blogs.each do |blog| %>
+<p>
+	<strong>Blog:</strong>
+	<%= blog.name %>
+	<%= blog.title %>
+	<%= blog.description %>
+</p>
+<%# debugger %>
+<%= link_to 'show', user_blog_path(current_user.id,blog.id) %> <br>
+<%= link_to 'edit', edit_user_blog_path(current_user.id,blog.id) %><br>
+<%=link_to 'Destroy', [blog.user, blog] ,
+method: :delete %>
+
+
+<% blog.comments.each do |comment| %>
+<strong>Content:</strong>
+<%= comment.content %>
+</p>
+<% end %>
+
+
+<%= form_with scope: :comment, url: user_blog_comments_path(current_user.id,blog.id),method: :post do |comment| %>
+<%# debugger %>
+<%= comment.label :content %><br>
+<%= comment.text_field :content %>
+</p>
+
+<p>
+	<%= comment.submit %>
+</p>
+<% end %>
+<% end %>
+
+
+
